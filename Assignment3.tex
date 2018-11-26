@@ -1,0 +1,83 @@
+\documentclass[a4paper, 12pt, titlepage]{article}
+
+\def\code#1{\texttt{#1}}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+% Basic document details
+\title{CPSC 331: Assignment 2}
+\author{
+  Matthew Allwright\\
+  \texttt{30037812}
+  \and
+  Karim Beyk\\
+  \texttt{30027342}
+  \and
+  Seth Campbell\\
+  \texttt{10152719}
+}
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 1:\\Prove the following claim, and then prove the correctness of the \code{bubbleDown} algorithm.}
+
+\subsection*{Proof 1:}
+
+\noindent
+\textbf{Claim:}
+
+If the precondition for the ``MaxHeap Restoration after Deletion'' problem is satisfied and the \code{bubbleDown} algorithm is executed
+(with the input node $x$, as described)
+then this execution of the algorithm eventually ends,
+and the postcondition for the ``MaxHeap Restoration after Deletion'' problem is satisfied on termination.
+
+\subsection*{Proof 2:}
+
+\noindent
+\textbf{Claim:}
+
+The \code{bubbleDown} algorithm correctly solves the ``MaxHeap Restoration after Deletion'' problem.
+
+\section*{Question 2:\\Complete the \code{ArrayMaxHeap.java} program.}
+
+
+
+\section*{Question 3:\\Complete the \code{HeapSort.java} program.}
+
+
+
+\section*{Question 4:\\Describe the changes you would need to make in order update a reference to the most recently insterted node as a new node is being added during an insert operation.}
+
+
+
+\section*{Question 5:\\Complete the \code{TreeMinHeap.java} program.}
+
+
+
+\end{document}
