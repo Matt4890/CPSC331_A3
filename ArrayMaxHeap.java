@@ -132,14 +132,10 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 	private void bubbleUp (int i) {
 
 		if (i != 0 && this.A.get(i).compareTo(this.A.get(parent(i))) == 1) {
-
 			T temp = this.A.get(i);
-
 			this.A.set(i,			this.A.get(parent(i)));
 			this.A.set(parent(i),	temp);
-
-			bubbleUp(i);
-
+			bubbleUp(parent(i));
 		}
 
 	}
@@ -169,7 +165,38 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private void bubbleDown (int i) {
 
-		// To be supplied by students
+		if (hasRight(i)) { // i has 2 children
+
+			if (this.A.get(left(i)).compareTo(this.A.get(right(i))) >= 0) { // Left child is greater than or equal to right child
+
+				if (this.A.get(left(i)).compareTo(this.A.get(i)) == 1) {
+					T temp = this.A.get(i);
+					this.A.set(i,		this.A.get(left(i)));
+					this.A.set(left(i),	temp);
+					bubbleDown(left(i));
+				}
+
+			} else { // Right child is greater than left child
+
+				if (this.A.get(right(i)).compareTo(this.A.get(i)) == 1) {
+					T temp = this.A.get(i);
+					this.A.set(i,			this.A.get(right(i)));
+					this.A.set(right(i),	temp);
+					bubbleDown(right(i));
+				}
+
+			}
+
+		} else if (hasLeft(i)) { // i has 1 child
+
+			if (this.A.get(left(i)).compareTo(this.A.get(i)) == 1) {
+				T temp = this.A.get(i);
+				this.A.set(i,		this.A.get(left(i)));
+				this.A.set(left(i),	temp);
+				bubbleDown(left(i));
+			}
+
+		}
 
 	}
 
