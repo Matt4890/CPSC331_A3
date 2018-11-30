@@ -213,7 +213,12 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private void heapify(){
 
-		// To be supplied by students
+		int i = Math.floor(A.size() / 2);
+
+		while (i > 0) {
+			i -= 1;
+			bubbleDown(i);
+		}
 
 	}
 
