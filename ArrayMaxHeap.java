@@ -46,13 +46,7 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private boolean hasLeft (int i) {
 
-		int leftIndex = leftChild(i);
-
-		if (leftIndex >= this.CAPACITY) {
-			return false;    // Array is too small to have a left child.
-		} else {
-			return this.A.get(leftIndex) != null;
-		}
+		return leftChild(i) < this.size;
 
 	}
 
@@ -81,13 +75,7 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private boolean hasRight (int i) {
 
-		int rightIndex = rightChild(i);
-
-		if (rightIndex >= this.CAPACITY) {
-			return false;    // Array is too small to have a right child.
-		} else {
-			return this.A.get(rightIndex) != null;
-		}
+		return rightChild(i) < this.size;
 
 	}
 
