@@ -32,7 +32,7 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private int parent (int i) {
 
-		return Math.floor((i-1) / 2); // Parent index
+		return (int) Math.floor((i-1) / 2); // Parent index
 
 	}
 
@@ -155,33 +155,33 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 		if (hasRight(i)) { // i has 2 children
 
-			if (this.A.get(left(i)).compareTo(this.A.get(right(i))) >= 0) { // Left child is greater than or equal to right child
+			if (this.A.get(leftChild(i)).compareTo(this.A.get(rightChild(i))) >= 0) { // Left child is greater than or equal to right child
 
-				if (this.A.get(left(i)).compareTo(this.A.get(i)) == 1) {
+				if (this.A.get(leftChild(i)).compareTo(this.A.get(i)) == 1) {
 					T temp = this.A.get(i);
-					this.A.set(i,		this.A.get(left(i)));
-					this.A.set(left(i),	temp);
-					bubbleDown(left(i));
+					this.A.set(i,		this.A.get(leftChild(i)));
+					this.A.set(leftChild(i),	temp);
+					bubbleDown(leftChild(i));
 				}
 
 			} else { // Right child is greater than left child
 
-				if (this.A.get(right(i)).compareTo(this.A.get(i)) == 1) {
+				if (this.A.get(rightChild(i)).compareTo(this.A.get(i)) == 1) {
 					T temp = this.A.get(i);
-					this.A.set(i,			this.A.get(right(i)));
-					this.A.set(right(i),	temp);
-					bubbleDown(right(i));
+					this.A.set(i,			this.A.get(rightChild(i)));
+					this.A.set(rightChild(i),	temp);
+					bubbleDown(rightChild(i));
 				}
 
 			}
 
 		} else if (hasLeft(i)) { // i has 1 child
 
-			if (this.A.get(left(i)).compareTo(this.A.get(i)) == 1) {
+			if (this.A.get(leftChild(i)).compareTo(this.A.get(i)) == 1) {
 				T temp = this.A.get(i);
-				this.A.set(i,		this.A.get(left(i)));
-				this.A.set(left(i),	temp);
-				bubbleDown(left(i));
+				this.A.set(i,		this.A.get(leftChild(i)));
+				this.A.set(leftChild(i),	temp);
+				bubbleDown(leftChild(i));
 			}
 
 		}
@@ -201,7 +201,7 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private void heapify(){
 
-		int i = Math.floor(A.size() / 2);
+		int i = (int) Math.floor(this.A.size() / 2);
 
 		while (i > 0) {
 			i -= 1;
