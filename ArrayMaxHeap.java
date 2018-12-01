@@ -297,7 +297,13 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	public void insert(T v) throws HeapFullException {
 
-		// To be supplied by students
+		if (this.size < this.CAPACITY) {
+			this.A.set(this.size, v);
+			bubbleUp(this.size);
+			this.size += 1;
+		} else {
+			throw new HeapFullException("This heap is full! It cannot accept any more values!");
+		}
 
 	}
 
@@ -305,7 +311,21 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	public T deleteMax() throws NoSuchElementException {
 
-		return null;   // To be supplied by students
+		if (this.size == 0) {
+			throw new NoSuchElementException("This heap is empty!");
+		} else {
+			this.size -= 1;
+			T last = this.A.get(this.size);
+
+			if (this.size == 0) {
+				return last;
+			} else {
+				T first = this.A.get(0);
+				this.A.set(0, last);
+				bubbleDown(0);
+				return first;
+			}
+		}
 
 	}
 
