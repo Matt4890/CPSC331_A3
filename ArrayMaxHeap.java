@@ -21,7 +21,7 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private final int CAPACITY;
 	private int size;
-	private ArrayList<T> A;
+	public ArrayList<T> A;
 
 	// Returns the index of a parent of a node that has one
 	//
@@ -199,13 +199,13 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 	// b) A is now a representation of a BoundedMaXHeap whose size is the size (and
 	//    capacity) of this ArrayList.
 
-	private void heapify(){
+	private void heapify() {
 
 		int i = (int) Math.floor(this.A.size() / 2);
 
 		while (i > 0) {
+			bubbleDown(i - 1);
 			i -= 1;
-			bubbleDown(i);
 		}
 
 	}
@@ -314,16 +314,16 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 		if (this.size == 0) {
 			throw new NoSuchElementException("This heap is empty!");
 		} else {
+			T v = this.A.get(this.size - 1);
 			this.size -= 1;
-			T last = this.A.get(this.size);
 
 			if (this.size == 0) {
-				return last;
+				return v;
 			} else {
-				T first = this.A.get(0);
-				this.A.set(0, last);
+				T key = this.A.get(0);
+				this.A.set(0, v);
 				bubbleDown(0);
-				return first;
+				return key;
 			}
 		}
 
