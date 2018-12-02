@@ -70,7 +70,7 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 		public T getValue() {
 			return value;
 		}
-	
+
 		// Reports the parent of this TreeNode
 		//
 		// Precondition: The TreeNode Invariant is satisfied.
@@ -190,7 +190,22 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	private TreeNode predecessor () {
 
-		return null;    // To be supplied by students
+		TreeNode n = this.latest;
+
+		if (n == n.parent.rightChild) {
+			return n.parent.leftChild;
+		} else {
+			while (n != this.root && n == n.parent.leftChild) {
+				n = n.parent;
+			}
+			if (n != this.root) {
+				n = n.parent.leftChild;
+			}
+			while (n.rightChild != null) {
+				n = n.rightChild;
+			}
+			return n;
+		}
 
 	}
 
@@ -203,7 +218,22 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	private TreeNode successorParent ()  {
 
-		return null;   // To be supplied by students
+		TreeNode n = this.latest;
+
+		if (n == n.parent.leftChild) {
+			return n.parent;
+		} else {
+			while (n != this.root && n == n.parent.rightChild) {
+				n = n.parent;
+			}
+			if (n != this.root) {
+				n = n.parent.rightChild;
+			}
+			while (n.leftChild != null) {
+				n = n.leftChild;
+			}
+			return n;
+		}
 
 	}
 
@@ -227,7 +257,12 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	private void bubbleUp(TreeNode x) {
 
-		// To be supplied by students
+		if (x != this.root && x.value.compareTo(x.parent.value) == -1) {
+			T temp = x.value;
+			x.value = x.parent.value;
+			x.parent.value = temp;
+			bubbleUp(x);
+		}
 
 	}
 
