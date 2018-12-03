@@ -220,7 +220,9 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 		TreeNode n = this.latest;
 
-		if (n == n.parent.leftChild) {
+		if (n == null) {
+			return null;
+		} else if (n != this.root && n == n.parent.leftChild) {
 			return n.parent;
 		} else {
 			while (n != this.root && n == n.parent.rightChild) {
@@ -292,7 +294,7 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 			if (x.leftChild.value.compareTo(x.rightChild.value) >= 0) { // Left child is greater than or equal to right child
 
-				if (x.leftChild.Value.compareTo(x.value) == 1) {
+				if (x.leftChild.value.compareTo(x.value) == 1) {
 					T swapValue = x.value;
 					int swapIndex = x.index;
 					x.value = x.leftChild.value;
@@ -316,7 +318,7 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 			}
 
-		} else if (hasLeft(i)) { // i has 1 child
+		} else if (x.leftChild != null) { // i has 1 child
 
 			if (x.leftChild.value.compareTo(x.value) == 1) {
 				T swapValue = x.value;
@@ -339,16 +341,25 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	public void insert (T v) {
 
-		this.latest = new TreeNode(v, this.latest.index + 1);
-		this.latest.parent = successorParent();
 
-		if (this.latest.parent.leftChild == null) {
-			this.latest.parent.leftChild = this.latest;
-		} else {
-			this.latest.parent.rightChild = this.latest;
+		TreeNode n = new TreeNode(v, this.latest != null ? this.latest.index + 1 : 0);
+		if (this.root == null) {
+			this.root = n;
+		}
+		TreeNode p = successorParent();
+		this.latest = n;
+		this.latest.parent = p;
+
+		if (n != root) {
+			if (this.latest.parent.leftChild == null) {
+				this.latest.parent.leftChild = this.latest;
+			} else {
+				this.latest.parent.rightChild = this.latest;
+			}
 		}
 
-		bubbleUp(n);
+		this.heapSize += 1;
+		bubbleUp(this.latest);
 
 	}
 
@@ -366,10 +377,20 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 			this.heapSize -= 1;
 
 			if (this.heapSize == 0) {
+				this.root = null;
+				this.latest = null;
 				return v;
 			} else {
 				T key = this.root.value;
 				this.root.value = v;
+				TreeNode l = this.latest;
+				this.latest = predecessor();
+				if (l.parent.leftChild == l) {
+					l.parent.leftChild = null;
+				} else {
+					l.parent.rightChild = null;
+				}
+				l.parent = null;
 				bubbleDown(this.root);
 				return key;
 			}
