@@ -292,9 +292,9 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 		if (x.rightChild != null) { // i has 2 children
 
-			if (x.leftChild.value.compareTo(x.rightChild.value) >= 0) { // Left child is greater than or equal to right child
+			if (x.leftChild.value.compareTo(x.rightChild.value) <= 0) { // Left child is less than or equal to right child
 
-				if (x.leftChild.value.compareTo(x.value) == 1) {
+				if (x.leftChild.value.compareTo(x.value) == -1) {
 					T swapValue = x.value;
 					int swapIndex = x.index;
 					x.value = x.leftChild.value;
@@ -304,9 +304,9 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 					bubbleDown(x.leftChild);
 				}
 
-			} else { // Right child is greater than left childleftChild
+			} else { // Right child is less than left child
 
-				if (x.rightChild.value.compareTo(x.value) == 1) {
+				if (x.rightChild.value.compareTo(x.value) == -1) {
 					T swapValue = x.value;
 					int swapIndex = x.index;
 					x.value = x.rightChild.value;
@@ -320,7 +320,7 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 		} else if (x.leftChild != null) { // i has 1 child
 
-			if (x.leftChild.value.compareTo(x.value) == 1) {
+			if (x.leftChild.value.compareTo(x.value) == -1) {
 				T swapValue = x.value;
 				int swapIndex = x.index;
 				x.value = x.leftChild.value;
@@ -373,16 +373,16 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 		if (this.heapSize == 0) {
 			throw new NoSuchElementException("This heap is empty!");
 		} else {
-			T v = this.latest.value;
+			T latestVal = this.latest.value;
 			this.heapSize -= 1;
 
 			if (this.heapSize == 0) {
 				this.root = null;
 				this.latest = null;
-				return v;
+				return latestVal;
 			} else {
-				T key = this.root.value;
-				this.root.value = v;
+				T minVal = this.root.value;
+				this.root.value = latestVal;
 				TreeNode l = this.latest;
 				this.latest = predecessor();
 				if (l.parent.leftChild == l) {
@@ -392,7 +392,7 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 				}
 				l.parent = null;
 				bubbleDown(this.root);
-				return key;
+				return minVal;
 			}
 		}
 
