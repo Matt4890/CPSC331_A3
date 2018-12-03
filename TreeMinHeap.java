@@ -327,7 +327,16 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	public void insert (T v) {
 
-		// To be supplied by students
+		TreeNode n = new TreeNode(v, this.latest.index + 1);
+		n.parent = successorParent();
+
+		if (n.parent.leftChild == null) {
+			n.parent.leftChild = n;
+		} else {
+			n.parent.rightChild = n;
+		}
+
+		bubbleUp(n);
 
 	}
 
