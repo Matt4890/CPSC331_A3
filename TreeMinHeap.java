@@ -359,7 +359,21 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	public T deleteMin () throws NoSuchElementException {
 
-		return null;   // To be supplied by students
+		if (this.heapSize == 0) {
+			throw new NoSuchElementException("This heap is empty!");
+		} else {
+			T v = this.latest.value;
+			this.heapSize -= 1;
+
+			if (this.heapSize == 0) {
+				return v;
+			} else {
+				T key = this.root.value;
+				this.root.value = v;
+				bubbleDown(this.root);
+				return key;
+			}
+		}
 
 	}
 
