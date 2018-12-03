@@ -258,9 +258,12 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 	private void bubbleUp(TreeNode x) {
 
 		if (x != this.root && x.value.compareTo(x.parent.value) == -1) {
-			T temp = x.value;
+			T swapValue = x.value;
+			int swapIndex = x.index;
 			x.value = x.parent.value;
-			x.parent.value = temp;
+			x.index = x.parent.index;
+			x.parent.value = swapValue;
+			x.parent.index = swapIndex;
 			bubbleUp(x.parent);
 		}
 
@@ -290,18 +293,24 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 			if (x.leftChild.value.compareTo(x.rightChild.value) >= 0) { // Left child is greater than or equal to right child
 
 				if (x.leftChild.Value.compareTo(x.value) == 1) {
-					T temp = x.value;
+					T swapValue = x.value;
+					int swapIndex = x.index;
 					x.value = x.leftChild.value;
-					x.leftChild.value = temp;
+					x.index = x.leftChild.index;
+					x.leftChild.value = swapValue;
+					x.leftChild.index = swapIndex;
 					bubbleDown(x.leftChild);
 				}
 
 			} else { // Right child is greater than left childleftChild
 
 				if (x.rightChild.value.compareTo(x.value) == 1) {
-					T temp = x.value;
+					T swapValue = x.value;
+					int swapIndex = x.index;
 					x.value = x.rightChild.value;
-					x.rightChild.value = temp;
+					x.index = x.rightChild.index;
+					x.rightChild.value = swapValue;
+					x.rightChild.index = swapIndex;
 					bubbleDown(x.rightChild);
 				}
 
@@ -310,9 +319,12 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 		} else if (hasLeft(i)) { // i has 1 child
 
 			if (x.leftChild.value.compareTo(x.value) == 1) {
-				T temp = x.value;
+				T swapValue = x.value;
+				int swapIndex = x.index;
 				x.value = x.leftChild.value;
-				x.leftChild.value = temp;
+				x.index = x.leftChild.index;
+				x.leftChild.value = swapValue;
+				x.leftChild.index = swapIndex;
 				bubbleDown(x.leftChild);
 			}
 
