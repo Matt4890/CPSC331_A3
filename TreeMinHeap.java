@@ -261,7 +261,7 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 			T temp = x.value;
 			x.value = x.parent.value;
 			x.parent.value = temp;
-			bubbleUp(x);
+			bubbleUp(x.parent);
 		}
 
 	}
@@ -285,7 +285,38 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	private void bubbleDown(TreeNode x) {
 
-		// To be supplied by students
+		if (x.rightChild != null) { // i has 2 children
+
+			if (x.leftChild.value.compareTo(x.rightChild.value) >= 0) { // Left child is greater than or equal to right child
+
+				if (x.leftChild.Value.compareTo(x.value) == 1) {
+					T temp = x.value;
+					x.value = x.leftChild.value;
+					x.leftChild.value = temp;
+					bubbleDown(x.leftChild);
+				}
+
+			} else { // Right child is greater than left childleftChild
+
+				if (x.rightChild.value.compareTo(x.value) == 1) {
+					T temp = x.value;
+					x.value = x.rightChild.value;
+					x.rightChild.value = temp;
+					bubbleDown(x.rightChild);
+				}
+
+			}
+
+		} else if (hasLeft(i)) { // i has 1 child
+
+			if (x.leftChild.value.compareTo(x.value) == 1) {
+				T temp = x.value;
+				x.value = x.leftChild.value;
+				x.leftChild.value = temp;
+				bubbleDown(x.leftChild);
+			}
+
+		}
 
 	}
 
