@@ -38,9 +38,13 @@ public class HeapSort<T extends Comparable<T>> {
 
 		ArrayMaxHeap<T> H = new ArrayMaxHeap<T>(A);
 
+		// For each index of the array (from last to first)...
 		for (int i = A.size() - 1; i > 0; i--) {
+
+			// Set the index of the array to the max value
 			T m = H.deleteMax();
 			A.set(i, m);
+
 		}
 
 	}

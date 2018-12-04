@@ -46,7 +46,7 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private boolean hasLeft (int i) {
 
-		return leftChild(i) < this.size;
+		return leftChild(i) < this.size; // If heap is large enough for a left child
 
 	}
 
@@ -61,7 +61,7 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private int leftChild (int i) {
 
-		return (2*i) + 1;    // Left child index
+		return (2*i) + 1; // Left child index
 
 	}
 
@@ -75,7 +75,7 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private boolean hasRight (int i) {
 
-		return rightChild(i) < this.size;
+		return rightChild(i) < this.size; // If heap is large enough for a right child
 
 	}
 
@@ -90,7 +90,7 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private int rightChild (int i) {
 
-		return (2*i) + 2;    // Right child index
+		return (2*i) + 2; // Right child index
 
 	}
 
@@ -119,18 +119,26 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private void bubbleUp (int i) {
 
-		T temp;
+		T swapValue;
 
+		// While there are still values in the heap...
 		while (i > 0){
 
+			// Swap values if i isn't root and i is greater than its parent
 			if (i != 0 && this.A.get(i).compareTo(this.A.get(parent(i))) == 1) {
-				temp = this.A.get(i);
+
+				// Swap values
+				swapValue = this.A.get(i);
 				this.A.set(i,			this.A.get(parent(i)));
-				this.A.set(parent(i),	temp);
+				this.A.set(parent(i),	swapValue);
+
+				// Continue bubbling with parent
 				i = parent(i);
 				continue;
+
 			}
 
+			// No more bubbling needed
 			break;
 
 		}
@@ -164,42 +172,63 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 		T temp;
 
+		// While i has children...
 		while (hasLeft(i)) {
 
-			if (hasRight(i)) { // i has 2 children
+			// If i has 2 children...
+			if (hasRight(i)) {
 
-				if (this.A.get(leftChild(i)).compareTo(this.A.get(rightChild(i))) >= 0) { // Left child is greater than or equal to right child
+				// If the left child is greater than or equal to right child...
+				if (this.A.get(leftChild(i)).compareTo(this.A.get(rightChild(i))) >= 0) {
 
+					// If the left child is greater than i...
 					if (this.A.get(leftChild(i)).compareTo(this.A.get(i)) == 1) {
+
+						// Swap values
 						temp = this.A.get(i);
-						this.A.set(i,		this.A.get(leftChild(i)));
+						this.A.set(i,				this.A.get(leftChild(i)));
 						this.A.set(leftChild(i),	temp);
+
+						// Continue bubbling with the left child
 						i = leftChild(i);
 						continue;
+
 					}
 
-				} else if (this.A.get(rightChild(i)).compareTo(this.A.get(i)) == 1) { // Right child is greater than left child
+				// If the right child is greater than left child
+				} else if (this.A.get(rightChild(i)).compareTo(this.A.get(i)) == 1) {
 
+					// Swap values
 					temp = this.A.get(i);
-					this.A.set(i,			this.A.get(rightChild(i)));
+					this.A.set(i,				this.A.get(rightChild(i)));
 					this.A.set(rightChild(i),	temp);
+
+					// Continue bubbling with the right child
 					i = rightChild(i);
 					continue;
 
 				}
 
-			} else if (hasLeft(i)) { // i has 1 child
+			// If i has 1 child...
+			} else if (hasLeft(i)) {
 
+				// If the left child is greater than i...
 				if (this.A.get(leftChild(i)).compareTo(this.A.get(i)) == 1) {
+
+					// Swap values
 					temp = this.A.get(i);
-					this.A.set(i,		this.A.get(leftChild(i)));
+					this.A.set(i,				this.A.get(leftChild(i)));
 					this.A.set(leftChild(i),	temp);
+
+					// Continue bubbling with the left child
 					i = leftChild(i);
 					continue;
+
 				}
 
 			}
 
+			// No more bubbling needed
 			break;
 
 		}
@@ -219,11 +248,16 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private void heapify() {
 
+		// Get the index of the first non-leaf
 		int i = (int) Math.floor(this.A.size() / 2);
 
+		// For each non leaf...
 		while (i > 0) {
+
+			// Bubble the node down
 			bubbleDown(i - 1);
 			i -= 1;
+
 		}
 
 	}
@@ -315,10 +349,15 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	public void insert(T v) throws HeapFullException {
 
+		// If there's room for a new node...
 		if (this.size < this.CAPACITY) {
+
+			// Insert a new value and bubble it up
 			this.A.set(this.size, v);
 			bubbleUp(this.size);
 			this.size += 1;
+
+		// If there isn't room for a new node...
 		} else {
 			throw new HeapFullException("This heap is full! It cannot accept any more values!");
 		}
@@ -329,19 +368,34 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	public T deleteMax() throws NoSuchElementException {
 
+		// If the heap is empty...
 		if (this.size == 0) {
 			throw new NoSuchElementException("This heap is empty!");
+
+		// If the heap isn't empty...
 		} else {
+
+			// Get the last value
 			T v = this.A.get(this.size - 1);
 			this.size -= 1;
 
+			// If there's only 1 node...
 			if (this.size == 0) {
 				return v;
+
+			// If there are multiple nodes
 			} else {
+
+				// Swap the last value with the root
 				T key = this.A.get(0);
 				this.A.set(0, v);
+
+				// Bubble down the root
 				bubbleDown(0);
+
+				// Return the old root value
 				return key;
+				
 			}
 		}
 

@@ -190,20 +190,31 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	private TreeNode predecessor () {
 
+		// Start with the latest node
 		TreeNode n = this.latest;
 
+		// If n is a right child, return its sibling
 		if (n == n.parent.rightChild) {
 			return n.parent.leftChild;
+
+		// If n is a left child...
 		} else {
+
+			// Go up until you reach the root or a right child
 			while (n != this.root && n == n.parent.leftChild) {
 				n = n.parent;
 			}
+
+			// Swap to the node's sibling... if it has one
 			if (n != this.root) {
 				n = n.parent.leftChild;
 			}
+
+			// Go right until a leaf is reached
 			while (n.rightChild != null) {
 				n = n.rightChild;
 			}
+
 			return n;
 		}
 
@@ -220,9 +231,7 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 		TreeNode n = this.latest;
 
-		if (n == null) {
-			return null;
-		} else if (n != this.root && n == n.parent.leftChild) {
+		if (n != this.root && n == n.parent.leftChild) {
 			return n.parent;
 		} else {
 			while (n != this.root && n == n.parent.rightChild) {
@@ -262,19 +271,27 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 		T swapValue;
 		int swapIndex;
 
+		// While there are still nodes in the heap...
 		while (x != root) {
 
+			// Swap values if x isn't root and x is less than its parent
 			if (x != this.root && x.value.compareTo(x.parent.value) == -1) {
+
+				// Swap values
 				swapValue = x.value;
 				swapIndex = x.index;
 				x.value = x.parent.value;
 				x.index = x.parent.index;
 				x.parent.value = swapValue;
 				x.parent.index = swapIndex;
+
+				// Continue bubbling with parent
 				x = x.parent;
 				continue;
+
 			}
 
+			// No more bubbling needed
 			break;
 
 		}
@@ -367,10 +384,10 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 		TreeNode n = new TreeNode(v, this.latest != null ? this.latest.index + 1 : 0);
 		if (this.root == null) {
 			this.root = n;
+		} else {
+			n.parent = successorParent();
 		}
-		TreeNode p = successorParent();
 		this.latest = n;
-		this.latest.parent = p;
 
 		if (n != root) {
 			if (this.latest.parent.leftChild == null) {
