@@ -259,14 +259,24 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	private void bubbleUp(TreeNode x) {
 
-		if (x != this.root && x.value.compareTo(x.parent.value) == -1) {
-			T swapValue = x.value;
-			int swapIndex = x.index;
-			x.value = x.parent.value;
-			x.index = x.parent.index;
-			x.parent.value = swapValue;
-			x.parent.index = swapIndex;
-			bubbleUp(x.parent);
+		T swapValue;
+		int swapIndex;
+
+		while (x != root) {
+
+			if (x != this.root && x.value.compareTo(x.parent.value) == -1) {
+				swapValue = x.value;
+				swapIndex = x.index;
+				x.value = x.parent.value;
+				x.index = x.parent.index;
+				x.parent.value = swapValue;
+				x.parent.index = swapIndex;
+				x = x.parent;
+				continue;
+			}
+
+			break;
+
 		}
 
 	}
@@ -290,45 +300,57 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	private void bubbleDown(TreeNode x) {
 
-		if (x.rightChild != null) { // i has 2 children
+		T swapValue;
+		int swapIndex;
 
-			if (x.leftChild.value.compareTo(x.rightChild.value) <= 0) { // Left child is less than or equal to right child
+		while (x.leftChild != null) {
+
+			if (x.rightChild != null) { // i has 2 children
+
+				if (x.leftChild.value.compareTo(x.rightChild.value) <= 0) { // Left child is less than or equal to right child
+
+					if (x.leftChild.value.compareTo(x.value) == -1) {
+						swapValue = x.value;
+						swapIndex = x.index;
+						x.value = x.leftChild.value;
+						x.index = x.leftChild.index;
+						x.leftChild.value = swapValue;
+						x.leftChild.index = swapIndex;
+						x = x.leftChild;
+						continue;
+					}
+
+				} else { // Right child is less than left child
+
+					if (x.rightChild.value.compareTo(x.value) == -1) {
+						swapValue = x.value;
+						swapIndex = x.index;
+						x.value = x.rightChild.value;
+						x.index = x.rightChild.index;
+						x.rightChild.value = swapValue;
+						x.rightChild.index = swapIndex;
+						x = x.rightChild;
+						continue;
+					}
+
+				}
+
+			} else if (x.leftChild != null) { // i has 1 child
 
 				if (x.leftChild.value.compareTo(x.value) == -1) {
-					T swapValue = x.value;
-					int swapIndex = x.index;
+					swapValue = x.value;
+					swapIndex = x.index;
 					x.value = x.leftChild.value;
 					x.index = x.leftChild.index;
 					x.leftChild.value = swapValue;
 					x.leftChild.index = swapIndex;
-					bubbleDown(x.leftChild);
-				}
-
-			} else { // Right child is less than left child
-
-				if (x.rightChild.value.compareTo(x.value) == -1) {
-					T swapValue = x.value;
-					int swapIndex = x.index;
-					x.value = x.rightChild.value;
-					x.index = x.rightChild.index;
-					x.rightChild.value = swapValue;
-					x.rightChild.index = swapIndex;
-					bubbleDown(x.rightChild);
+					x = x.leftChild;
+					continue;
 				}
 
 			}
 
-		} else if (x.leftChild != null) { // i has 1 child
-
-			if (x.leftChild.value.compareTo(x.value) == -1) {
-				T swapValue = x.value;
-				int swapIndex = x.index;
-				x.value = x.leftChild.value;
-				x.index = x.leftChild.index;
-				x.leftChild.value = swapValue;
-				x.leftChild.index = swapIndex;
-				bubbleDown(x.leftChild);
-			}
+			break;
 
 		}
 

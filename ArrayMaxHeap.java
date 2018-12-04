@@ -119,11 +119,20 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private void bubbleUp (int i) {
 
-		if (i != 0 && this.A.get(i).compareTo(this.A.get(parent(i))) == 1) {
-			T temp = this.A.get(i);
-			this.A.set(i,			this.A.get(parent(i)));
-			this.A.set(parent(i),	temp);
-			bubbleUp(parent(i));
+		T temp;
+
+		while (i > 0){
+
+			if (i != 0 && this.A.get(i).compareTo(this.A.get(parent(i))) == 1) {
+				temp = this.A.get(i);
+				this.A.set(i,			this.A.get(parent(i)));
+				this.A.set(parent(i),	temp);
+				i = parent(i);
+				continue;
+			}
+
+			break;
+
 		}
 
 	}
@@ -153,36 +162,45 @@ public class ArrayMaxHeap<T extends Comparable<T>> implements BoundedMaxHeap<T> 
 
 	private void bubbleDown (int i) {
 
-		if (hasRight(i)) { // i has 2 children
+		T temp;
 
-			if (this.A.get(leftChild(i)).compareTo(this.A.get(rightChild(i))) >= 0) { // Left child is greater than or equal to right child
+		while (hasLeft(i)) {
 
-				if (this.A.get(leftChild(i)).compareTo(this.A.get(i)) == 1) {
-					T temp = this.A.get(i);
-					this.A.set(i,		this.A.get(leftChild(i)));
-					this.A.set(leftChild(i),	temp);
-					bubbleDown(leftChild(i));
-				}
+			if (hasRight(i)) { // i has 2 children
 
-			} else { // Right child is greater than left child
+				if (this.A.get(leftChild(i)).compareTo(this.A.get(rightChild(i))) >= 0) { // Left child is greater than or equal to right child
 
-				if (this.A.get(rightChild(i)).compareTo(this.A.get(i)) == 1) {
-					T temp = this.A.get(i);
+					if (this.A.get(leftChild(i)).compareTo(this.A.get(i)) == 1) {
+						temp = this.A.get(i);
+						this.A.set(i,		this.A.get(leftChild(i)));
+						this.A.set(leftChild(i),	temp);
+						i = leftChild(i);
+						continue;
+					}
+
+				} else if (this.A.get(rightChild(i)).compareTo(this.A.get(i)) == 1) { // Right child is greater than left child
+
+					temp = this.A.get(i);
 					this.A.set(i,			this.A.get(rightChild(i)));
 					this.A.set(rightChild(i),	temp);
-					bubbleDown(rightChild(i));
+					i = rightChild(i);
+					continue;
+
+				}
+
+			} else if (hasLeft(i)) { // i has 1 child
+
+				if (this.A.get(leftChild(i)).compareTo(this.A.get(i)) == 1) {
+					temp = this.A.get(i);
+					this.A.set(i,		this.A.get(leftChild(i)));
+					this.A.set(leftChild(i),	temp);
+					i = leftChild(i);
+					continue;
 				}
 
 			}
 
-		} else if (hasLeft(i)) { // i has 1 child
-
-			if (this.A.get(leftChild(i)).compareTo(this.A.get(i)) == 1) {
-				T temp = this.A.get(i);
-				this.A.set(i,		this.A.get(leftChild(i)));
-				this.A.set(leftChild(i),	temp);
-				bubbleDown(leftChild(i));
-			}
+			break;
 
 		}
 
