@@ -195,6 +195,8 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 		// If n is a right child, return its sibling
 		if (n == n.parent.rightChild) {
+
+			// Return n's sibling
 			return n.parent.leftChild;
 
 		// If n is a left child...
@@ -216,6 +218,7 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 			}
 
 			return n;
+
 		}
 
 	}
@@ -229,21 +232,35 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	private TreeNode successorParent ()  {
 
+		// Start wih the latest node
 		TreeNode n = this.latest;
 
+		// If n isn't the root and n is a left child...
 		if (n != this.root && n == n.parent.leftChild) {
+
+			// Return n's parent
 			return n.parent;
+
+		// If n is root or a right child...
 		} else {
+
+			// Go up until you reach the root or a left child
 			while (n != this.root && n == n.parent.rightChild) {
 				n = n.parent;
 			}
+
+			// Swap to the node's sibling... if it has one
 			if (n != this.root) {
 				n = n.parent.rightChild;
 			}
+
+			// Go left until a leaf is reached
 			while (n.leftChild != null) {
 				n = n.leftChild;
 			}
+
 			return n;
+
 		}
 
 	}
@@ -320,53 +337,76 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 		T swapValue;
 		int swapIndex;
 
+		// While x has children...
 		while (x.leftChild != null) {
 
-			if (x.rightChild != null) { // i has 2 children
+			// If x has 2 children...
+			if (x.rightChild != null) {
 
-				if (x.leftChild.value.compareTo(x.rightChild.value) <= 0) { // Left child is less than or equal to right child
+				// If the left child is less than or equal to right child...
+				if (x.leftChild.value.compareTo(x.rightChild.value) <= 0) {
 
+					// If the left child is less than x...
 					if (x.leftChild.value.compareTo(x.value) == -1) {
+
+						// Swap values
 						swapValue = x.value;
 						swapIndex = x.index;
 						x.value = x.leftChild.value;
 						x.index = x.leftChild.index;
 						x.leftChild.value = swapValue;
 						x.leftChild.index = swapIndex;
+
+						// Continue bubbling with the left child
 						x = x.leftChild;
 						continue;
+
 					}
 
-				} else { // Right child is less than left child
+				// If the right child is less than left child
+				} else {
 
 					if (x.rightChild.value.compareTo(x.value) == -1) {
+
+						// Swap values
 						swapValue = x.value;
 						swapIndex = x.index;
 						x.value = x.rightChild.value;
 						x.index = x.rightChild.index;
 						x.rightChild.value = swapValue;
 						x.rightChild.index = swapIndex;
+
+						// Continue bubbling with the right child
 						x = x.rightChild;
 						continue;
+
 					}
 
 				}
 
-			} else if (x.leftChild != null) { // i has 1 child
+			// If i has 1 child...
+			} else if (x.leftChild != null) {
 
+				// If the left child is less than i...
 				if (x.leftChild.value.compareTo(x.value) == -1) {
+
+					// Swap values
 					swapValue = x.value;
 					swapIndex = x.index;
 					x.value = x.leftChild.value;
 					x.index = x.leftChild.index;
 					x.leftChild.value = swapValue;
 					x.leftChild.index = swapIndex;
+
+					// Continue bubbling with the left child
 					x = x.leftChild;
 					continue;
+
 				}
 
 			}
 
+			// No more bubbling needed
 			break;
 
 		}
@@ -380,15 +420,20 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	public void insert (T v) {
 
-
+		// Create a new node
 		TreeNode n = new TreeNode(v, this.latest != null ? this.latest.index + 1 : 0);
+
+		// Assign the parent
 		if (this.root == null) {
 			this.root = n;
 		} else {
 			n.parent = successorParent();
 		}
+
+		// Set thisto the latest
 		this.latest = n;
 
+		// Set the parent's relation
 		if (n != root) {
 			if (this.latest.parent.leftChild == null) {
 				this.latest.parent.leftChild = this.latest;
@@ -397,6 +442,7 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 			}
 		}
 
+		// Bubble up the node
 		this.heapSize += 1;
 		bubbleUp(this.latest);
 
@@ -409,29 +455,51 @@ public class TreeMinHeap<T extends Comparable<T>> implements MinHeap<T> {
 
 	public T deleteMin () throws NoSuchElementException {
 
+		// If the heap is empty...
 		if (this.heapSize == 0) {
 			throw new NoSuchElementException("This heap is empty!");
+
+		// If the heap isn't empty...
 		} else {
+
+			// Get the latest value
 			T latestVal = this.latest.value;
 			this.heapSize -= 1;
 
+			// If that was the only node...
 			if (this.heapSize == 0) {
+
 				this.root = null;
 				this.latest = null;
 				return latestVal;
+
+			// If there were multiple nodes...
 			} else {
+
+				// Record the minimum value
 				T minVal = this.root.value;
+
+				// Swap the root value with the latest value
 				this.root.value = latestVal;
+
+				// Assign a new latest node
 				TreeNode l = this.latest;
 				this.latest = predecessor();
+
+				// Delete the previous latest node
 				if (l.parent.leftChild == l) {
 					l.parent.leftChild = null;
 				} else {
 					l.parent.rightChild = null;
 				}
 				l.parent = null;
+
+				// Bubble down the root
 				bubbleDown(this.root);
+
+				// Return the old root value
 				return minVal;
+				
 			}
 		}
 
